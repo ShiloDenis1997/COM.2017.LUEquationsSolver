@@ -1,0 +1,5 @@
+LIBRARY         EquationsDll.dll
+DESCRIPTION     '(c)2017 Shilo Denis'
+
+EXPORTS
+                CreateInstance @1	PRIVATE
