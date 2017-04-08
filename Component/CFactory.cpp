@@ -62,7 +62,6 @@ HRESULT __stdcall CFactory::CreateInstance(IUnknown* pUnknownOuter,
 	{
 		return E_OUTOFMEMORY;
 	}
-	pEq->AddRef();
 	// Get the requested interface.
 	HRESULT hr = pEq->QueryInterface(iid, ppv);
 

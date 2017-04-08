@@ -59,7 +59,7 @@ void CEquationSolver::PrintUMatrix() const
 CEquationSolver::CEquationSolver()
 {
 	compTrace("Component ctor");
-	m_cRef = 0;
+	m_cRef = 1;
 	m_N = 0;
 	m_LUmatr = nullptr;
 	m_pRow = nullptr;
