@@ -8,6 +8,7 @@ cl %CPP_FLAGS% CEquationsSolver.cpp
 cl %CPP_FLAGS% EquationsDll.cpp
 cl %CPP_FLAGS% GUIDs.cpp
 cl %CPP_FLAGS% Registry.cpp
+cl %CPP_FLAGS% CEquationsPrinter.cpp
 
-link %DLL_LINK_FLAGS% EquationsDll.obj GUIDs.obj Registry.obj CFactory.obj CEquationsSolver.obj %LIBS% /DEF:EquationsDll.def
+link %DLL_LINK_FLAGS% EquationsDll.obj GUIDs.obj Registry.obj CFactory.obj CEquationsPrinter.obj CEquationsSolver.obj %LIBS% /DEF:EquationsDll.def
 regsvr32 EquationsDll.dll

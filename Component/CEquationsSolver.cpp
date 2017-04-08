@@ -1,60 +1,7 @@
 #include "CEquationsSolver.h"
+#include "CEquationsPrinter.h"
 
 void compTrace(const char* msg) { std::cout << msg << std::endl; }
-
-void CEquationSolver::PrintLMatrix() const
-{
-	if (m_LUmatr == nullptr)
-	{
-		std::cout << TEXT("No matrix provided") << std::endl;
-	}
-
-	for (int i = 0; i < m_N; i++)
-	{
-		for (int j = 0; j < m_N; j++)
-		{
-			if (j > i)
-			{
-				std::cout << 0 << " ";
-			}
-			else if (j < i)
-			{
-				std::cout << m_LUmatr[i][j] << " ";
-			}
-			else
-			{
-				std::cout << "1 ";
-			}
-		}
-
-		std::cout << std::endl;
-	}
-}
-
-void CEquationSolver::PrintUMatrix() const
-{
-	if (m_LUmatr == nullptr)
-	{
-		std::cout << TEXT("No matrix provided") << std::endl;
-	}
-
-	for (int i = 0; i < m_N; i++)
-	{
-		for (int j = 0; j < m_N; j++)
-		{
-			if (j < i)
-			{
-				std::cout << 0 << " ";
-			}
-			else if (j >= i)
-			{
-				std::cout << m_LUmatr[i][j] << " ";
-			}
-		}
-
-		std::cout << std::endl;
-	}
-}
 
 CEquationSolver::CEquationSolver()
 {
@@ -64,6 +11,7 @@ CEquationSolver::CEquationSolver()
 	m_LUmatr = nullptr;
 	m_pRow = nullptr;
 	m_pCol = nullptr;
+	printerIface = nullptr;
 }
 
 HRESULT CEquationSolver::QueryInterface(const IID& riid, void** ppvObject)
@@ -79,7 +27,21 @@ HRESULT CEquationSolver::QueryInterface(const IID& riid, void** ppvObject)
 	}
 	else if (riid == IID_IEquationPrinter)
 	{
-		*ppvObject = static_cast<IEquationPrinter*>(this);
+		if (printerIface == nullptr)
+		{
+			compTrace("Printer interface requested");
+			printerIface = new CEquationsPrinter(this);
+			if (printerIface == NULL)
+			{
+				return E_OUTOFMEMORY;
+			}
+			*ppvObject = static_cast<IEquationPrinter*>(printerIface);
+			return S_OK;
+		}
+		else
+		{
+			return printerIface->QueryInterface(riid, ppvObject);
+		}
 	}
 	else
 	{
@@ -92,16 +54,16 @@ HRESULT CEquationSolver::QueryInterface(const IID& riid, void** ppvObject)
 
 ULONG CEquationSolver::AddRef()
 {
-	compTrace("Add ref\n");
+	compTrace("Add ref");
 	return InterlockedIncrement(&m_cRef);
 }
 
 ULONG CEquationSolver::Release()
 {
-	compTrace("Release\n");
+	compTrace("Release");
 	if (InterlockedDecrement(&m_cRef) == 0)
 	{
-		compTrace("Deleting component\n");
+		compTrace("Deleting component");
 		DeleteMatrix();
 		delete this;
 		return 0;

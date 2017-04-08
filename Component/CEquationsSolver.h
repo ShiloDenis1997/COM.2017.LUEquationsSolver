@@ -5,11 +5,14 @@
 #include "IEquationPrinter.h"
 #include <iostream>
 
-class CEquationSolver : public IEquationSolver,
-	public IEquationPrinter
+class CEquationsPrinter;
+
+class CEquationSolver : public IEquationSolver//,
+	//public IEquationPrinter
 {
 public:
 	CEquationSolver();
+	~CEquationSolver() override;
 	HRESULT __stdcall QueryInterface(const IID& riid, void** ppvObject) override;
 	ULONG __stdcall AddRef() override;
 	ULONG __stdcall Release() override;
@@ -22,13 +25,13 @@ private:
 	void DeleteMatrix();
 	static void swapColumns(double **a, int c1, int c2, int n);
 public:
-	~CEquationSolver() override;
-	void PrintLMatrix() const override;
-	void PrintUMatrix() const override;
+	
 private:
+	friend class CEquationsPrinter;
 	long m_cRef;
 	int m_N;
 	int *m_pRow;
 	int *m_pCol;
 	double **m_LUmatr;
+	CEquationsPrinter* printerIface;
 };
