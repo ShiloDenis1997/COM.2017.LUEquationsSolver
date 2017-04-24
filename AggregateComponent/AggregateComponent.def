@@ -1,0 +1,8 @@
+LIBRARY         AggregateComponent.dll
+DESCRIPTION     '(c)2017 Shilo Denis'
+
+EXPORTS
+                DllGetClassObject  	PRIVATE
+                DllCanUnloadNow    	PRIVATE
+                DllRegisterServer  	PRIVATE
+                DllUnregisterServer	PRIVATE

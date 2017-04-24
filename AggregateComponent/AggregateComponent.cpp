@@ -1,16 +1,18 @@
 #include <Unknwn.h>
 #include <iostream>
-#include "REGISTRY.H"
-#include "CFactory.h"
+#include "../EquationsDll/REGISTRY.H"
+#include "AgCFactory.h"
+#include "AgCAggregateComponent.h"
+#include "AggregateComponent.h"
 
 // Friendly name of component
-const char g_szFriendlyName[] = "Equations solver via LU-decomposition";
+const char g_szFriendlyName[] = "Aggregate component for lab 4";
 
 // Version-independent ProgID
-const char g_szVerIndProgID[] = "EquationsSolver.LUdecomp";
+const char g_szVerIndProgID[] = "Lab4.AggregateComponent";
 
 // ProgID
-const char g_szProgID[] = "EquationsSolver.LUdecomp.1";
+const char g_szProgID[] = "Lab4.AggregateComponent.1";
 
 void trace(const char* msg) { std::cout << msg << std::endl; }
 
@@ -41,16 +43,16 @@ STDAPI DllGetClassObject(const CLSID& clsid,
 	const IID& iid,
 	void** ppv)
 {
-	trace("DllGetClassObject:\tCreate class factory.");
+	trace("DllGetClassObject:\tCreate aggregate class factory.");
 
 	// Can we create this component?
-	if (clsid != CLSID_EquationsComponent)
+	if (clsid != CLSID_AggregateComponent)
 	{
 		return CLASS_E_CLASSNOTAVAILABLE;
 	}
 
 	// Create class factory.
-	CFactory* pFactory = new CFactory;  // No AddRef in constructor
+	AgCFactory* pFactory = new AgCFactory;  // No AddRef in constructor
 	if (pFactory == NULL)
 	{
 		return E_OUTOFMEMORY;
@@ -69,7 +71,7 @@ STDAPI DllGetClassObject(const CLSID& clsid,
 STDAPI DllRegisterServer()
 {
 	return RegisterServer(g_hModule,
-		CLSID_EquationsComponent,
+		CLSID_AggregateComponent,
 		g_szFriendlyName,
 		g_szVerIndProgID,
 		g_szProgID);
@@ -81,7 +83,7 @@ STDAPI DllRegisterServer()
 //
 STDAPI DllUnregisterServer()
 {
-	return UnregisterServer(CLSID_EquationsComponent,
+	return UnregisterServer(CLSID_AggregateComponent,
 		g_szVerIndProgID,
 		g_szProgID);
 }
