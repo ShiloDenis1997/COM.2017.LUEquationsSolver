@@ -2,15 +2,15 @@
 
 void factTrace(const char* msg) { std::cout << msg << std::endl; }
 
-CFactory::CFactory(): m_cRef(1) {factTrace("Factory constructor");}
+CFactory::CFactory(): m_cRef(1) {factTrace("\tCFactory: constructor");}
 
-CFactory::~CFactory(){ factTrace("Class factory:\t\tDestroy self."); }
+CFactory::~CFactory(){ factTrace("\tCFactory:\t\tDestroy self."); }
 //
 // Class factory IUnknown implementation
 //
 HRESULT __stdcall CFactory::QueryInterface(const IID& iid, void** ppv)
 {
-	factTrace("query interface factory");
+	factTrace("\tCFactory: query interface factory");
 	if ((iid == IID_IUnknown) || (iid == IID_IClassFactory))
 	{
 		*ppv = static_cast<IClassFactory*>(this);
@@ -26,13 +26,13 @@ HRESULT __stdcall CFactory::QueryInterface(const IID& iid, void** ppv)
 
 ULONG __stdcall CFactory::AddRef()
 {
-	factTrace("add ref factory");
+	factTrace("\tCFactory: add ref factory");
 	return InterlockedIncrement(&m_cRef);
 }
 
 ULONG __stdcall CFactory::Release()
 {
-	factTrace("release ref factory");
+	factTrace("\tCFactory: release ref factory");
 	if (InterlockedDecrement(&m_cRef) == 0)
 	{
 		delete this;
@@ -48,26 +48,30 @@ HRESULT __stdcall CFactory::CreateInstance(IUnknown* pUnknownOuter,
 	const IID& iid,
 	void** ppv)
 {
-	factTrace("Class factory:\t\tCreate component.");
+	factTrace("\tCFactory:\t\tCreate component.");
 
-	// Cannot aggregate.
-	if (pUnknownOuter != NULL)
+	// when aggregate iid should be IUnknown.
+	if ((pUnknownOuter != NULL) && (iid != IID_IUnknown))
 	{
+		factTrace("\tCFactory: To aggregate you should ask for IUnknown");
 		return CLASS_E_NOAGGREGATION;
 	}
 
 	// Create component.
-	CEquationSolver* pEq = new CEquationSolver;
+	factTrace("\tCFactory: Call CEquations ctor");
+	CEquationSolver* pEq = new CEquationSolver(pUnknownOuter);
 	if (pEq == NULL)
 	{
 		return E_OUTOFMEMORY;
 	}
 	// Get the requested interface.
-	HRESULT hr = pEq->QueryInterface(iid, ppv);
+	factTrace("\tCFactory: Call nondelegating query interface");
+	HRESULT hr = pEq->NondelegatingQueryInterface(iid, ppv);
 
+	factTrace("\tCFactory: Call delegating release");
 	// Release the IUnknown pointer.
 	// (If QueryInterface failed, component will delete itself.)
-	pEq->Release();
+	pEq->NondelegatingRelease(); //to do changed from non delegating release
 	return hr;
 }
 

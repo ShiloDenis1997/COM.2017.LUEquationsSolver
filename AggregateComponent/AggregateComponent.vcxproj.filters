@@ -47,6 +47,9 @@
     <ClInclude Include="AgCAggregateComponent.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="IEquationSolver.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="AggregateComponent.def">

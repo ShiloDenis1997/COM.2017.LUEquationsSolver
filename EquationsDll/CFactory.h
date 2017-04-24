@@ -4,8 +4,6 @@
 #include <iostream>
 
 static HMODULE g_hModule = NULL;   // DLL module handle
-static long g_cComponents = 0;     // Count of active components
-static long g_cServerLocks = 0;    // Count of locks
 
 //Factory
 class CFactory : public IClassFactory

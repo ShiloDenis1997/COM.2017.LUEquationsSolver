@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AggregateComponent.h" />
     <ClCompile Include="Guids.cpp" />
     <ClCompile Include="Mainprg.cpp" />
   </ItemGroup>
@@ -153,6 +154,7 @@
     <ClInclude Include="EquationsComponent.h" />
     <ClInclude Include="IEquationPrinter.h" />
     <ClInclude Include="IEquationSolver.h" />
+    <ClInclude Include="IWhoAmI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

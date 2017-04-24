@@ -4,18 +4,25 @@
 #include "EquationsComponent.h"
 #include "IEquationPrinter.h"
 #include <iostream>
+#include "INondelegatingUnknown.h"
 
 class CEquationsPrinter;
 
-class CEquationSolver : public IEquationSolver//,
+static long g_cComponents = 0;     // Count of active components
+static long g_cServerLocks = 0;    // Count of locks
+
+class CEquationSolver : public IEquationSolver, public INondelegatingUnknown//,
 	//public IEquationPrinter
 {
 public:
-	CEquationSolver();
+	CEquationSolver(IUnknown* pUnknownOuter);
 	~CEquationSolver() override;
 	HRESULT __stdcall QueryInterface(const IID& riid, void** ppvObject) override;
 	ULONG __stdcall AddRef() override;
 	ULONG __stdcall Release() override;
+	HRESULT __stdcall NondelegatingQueryInterface(const IID& riid, void** ppvObject) override;
+	ULONG   __stdcall NondelegatingAddRef() override;
+	ULONG   __stdcall NondelegatingRelease() override;
 	bool LoadMatrix(double** a, int n) override;
 	void SolveWithVector(double* b, double* result) override;
 private:
@@ -34,4 +41,5 @@ private:
 	int *m_pCol;
 	double **m_LUmatr;
 	CEquationsPrinter* printerIface;
+	IUnknown* m_pUnknownOuter;
 };

@@ -63,8 +63,18 @@ HRESULT __stdcall AgCFactory::CreateInstance(IUnknown* pUnknownOuter,
 	{
 		return E_OUTOFMEMORY;
 	}
+
+	HRESULT hr = pCAg->Init();
+	if (FAILED(hr))
+	{
+		factTrace("Failed to initialize aggregate component\n");
+		// Initialization failed. Delete component.
+		pCAg->Release();
+		return hr;
+	}
+
 	// Get the requested interface.
-	HRESULT hr = pCAg->QueryInterface(iid, ppv);
+	hr = pCAg->QueryInterface(iid, ppv);
 
 	// Release the IUnknown pointer.
 	// (If QueryInterface failed, component will delete itself.)

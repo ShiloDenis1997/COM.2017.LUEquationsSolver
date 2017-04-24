@@ -131,6 +131,7 @@
     <ClInclude Include="AgCAggregateComponent.h" />
     <ClInclude Include="AgCFactory.h" />
     <ClInclude Include="AggregateComponent.h" />
+    <ClInclude Include="IEquationSolver.h" />
     <ClInclude Include="IWhoAmI.h" />
   </ItemGroup>
   <ItemGroup>

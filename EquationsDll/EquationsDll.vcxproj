@@ -168,6 +168,7 @@
     <ClInclude Include="EquationsComponent.h" />
     <ClInclude Include="IEquationPrinter.h" />
     <ClInclude Include="IEquationSolver.h" />
+    <ClInclude Include="INondelegatingUnknown.h" />
     <ClInclude Include="REGISTRY.H" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

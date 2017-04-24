@@ -61,5 +61,8 @@
     <ClInclude Include="CFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="INondelegatingUnknown.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

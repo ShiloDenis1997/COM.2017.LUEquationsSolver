@@ -3,9 +3,22 @@
 
 void compTrace(const char* msg) { std::cout << msg << std::endl; }
 
-CEquationSolver::CEquationSolver()
+CEquationSolver::CEquationSolver(IUnknown* pUnknownOuter)
 {
-	compTrace("Component ctor");
+	::InterlockedIncrement(&g_cComponents);
+	compTrace("\t\tCEquationComponent: Component ctor");
+	if (pUnknownOuter == NULL)
+	{
+		compTrace("\t\tCEquationComponent: Not aggregating; delegate to nondelegating IUnknown.");
+		m_pUnknownOuter = reinterpret_cast<IUnknown*>
+			(static_cast<INondelegatingUnknown*> (this));
+	}
+	else
+	{
+		compTrace("\t\tCEquationComponent: Aggregating; delegate to outer IUnknown.");
+		m_pUnknownOuter = pUnknownOuter;
+	}
+
 	m_cRef = 1;
 	m_N = 0;
 	m_LUmatr = nullptr;
@@ -16,10 +29,28 @@ CEquationSolver::CEquationSolver()
 
 HRESULT CEquationSolver::QueryInterface(const IID& riid, void** ppvObject)
 {
-	compTrace("component query interface");
+	compTrace("\t\tCEquationComponent: component delegating query interface");
+	return m_pUnknownOuter->QueryInterface(riid, ppvObject);
+}
+
+ULONG CEquationSolver::AddRef()
+{
+	compTrace("\t\tCEquationComponent: delegating Add ref");
+	return m_pUnknownOuter->AddRef();
+}
+
+ULONG CEquationSolver::Release()
+{
+	compTrace("\t\tCEquationComponent: delegating Release");
+	return m_pUnknownOuter->Release();
+}
+
+HRESULT CEquationSolver::NondelegatingQueryInterface(const IID& riid, void** ppvObject)
+{
+	compTrace("\t\tCEquationComponent: component nondelegating query interface");
 	if (riid == IID_IUnknown)
 	{
-		*ppvObject = static_cast<IEquationSolver*>(this);
+		*ppvObject = static_cast<INondelegatingUnknown*>(this);
 	}
 	else if (riid == IID_IEquationSolver)
 	{
@@ -29,7 +60,7 @@ HRESULT CEquationSolver::QueryInterface(const IID& riid, void** ppvObject)
 	{
 		if (printerIface == nullptr)
 		{
-			compTrace("Printer interface requested");
+			compTrace("\t\tCEquationComponent: Printer nondelegating interface requested");
 			printerIface = new CEquationsPrinter(this);
 			if (printerIface == NULL)
 			{
@@ -48,22 +79,22 @@ HRESULT CEquationSolver::QueryInterface(const IID& riid, void** ppvObject)
 		*ppvObject = nullptr;
 		return E_NOINTERFACE;
 	}
-	reinterpret_cast<IUnknown*>(this)->AddRef();
+	reinterpret_cast<IUnknown*>(*ppvObject)->AddRef();
 	return S_OK;
 }
 
-ULONG CEquationSolver::AddRef()
+ULONG CEquationSolver::NondelegatingAddRef()
 {
-	compTrace("Add ref");
+	compTrace("\t\tCEquationComponent: non delegating Add ref");
 	return InterlockedIncrement(&m_cRef);
 }
 
-ULONG CEquationSolver::Release()
+ULONG CEquationSolver::NondelegatingRelease()
 {
-	compTrace("Release");
+	compTrace("\t\tCEquationComponent: non delegating Release");
 	if (InterlockedDecrement(&m_cRef) == 0)
 	{
-		compTrace("Deleting component");
+		compTrace("\t\tCEquationComponent: non delegating Deleting component");
 		DeleteMatrix();
 		delete this;
 		return 0;
@@ -168,7 +199,7 @@ void CEquationSolver::SolveU(double* x) const
 
 void CEquationSolver::DeleteMatrix()
 {
-	compTrace("Delete matrix");
+	compTrace("\t\tCEquationComponent: Delete matrix");
 	if (m_LUmatr == nullptr)
 		return;
 
@@ -181,7 +212,7 @@ void CEquationSolver::DeleteMatrix()
 	delete[] m_pCol;
 	delete[] m_pRow;
 	m_LUmatr = nullptr;
-	compTrace("Deleted");
+	compTrace("\t\tCEquationComponent: Deleted");
 }
 
 void CEquationSolver::swapColumns(double** a, int c1, int c2, int n)
@@ -196,5 +227,6 @@ void CEquationSolver::swapColumns(double** a, int c1, int c2, int n)
 
 CEquationSolver::~CEquationSolver()
 {
-	compTrace("Component destructor");
+	::InterlockedDecrement(&g_cComponents);
+	compTrace("\t\tCEquationComponent: Component destructor");
 }
