@@ -1,0 +1,1 @@
+cl /LD EquationsDll.cpp Guids.cpp UUID.lib EquationsDll.def

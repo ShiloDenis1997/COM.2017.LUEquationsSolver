@@ -2,4 +2,7 @@ LIBRARY         EquationsDll.dll
 DESCRIPTION     '(c)2017 Shilo Denis'
 
 EXPORTS
-                CreateInstance @1	PRIVATE
+                DllGetClassObject  	PRIVATE
+                DllCanUnloadNow    	PRIVATE
+                DllRegisterServer  	PRIVATE
+                DllUnregisterServer	PRIVATE
