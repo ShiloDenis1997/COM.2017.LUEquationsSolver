@@ -8,6 +8,8 @@ AgCAggregateComponent::AgCAggregateComponent()
 {
 	compTrace("AComponent: aggregate Component ctor");
 	m_cRef = 1;
+	m_pEquationSolver = nullptr;
+	m_pUnknownInner = nullptr;
 }
 
 HRESULT AgCAggregateComponent::QueryInterface(const IID& riid, void** ppvObject)

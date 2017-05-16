@@ -140,8 +140,8 @@ void Aggregation()
 	pIWhoAmI->WhoAmI();// ask a main question
 	hr = pIWhoAmI->QueryInterface(IID_IEquationSolver, reinterpret_cast<void**>(&pIEquationSolver));
 	pIWhoAmI->Release();
-	/*IEquationPrinter* pIEquationPrinter = nullptr;
-	pIWhoAmI->QueryInterface(IID_IEquationPrinter, reinterpret_cast<void**>(&pIEquationPrinter));*/
+	IEquationPrinter* pIEquationPrinter = nullptr;
+	pIWhoAmI->QueryInterface(IID_IEquationPrinter, reinterpret_cast<void**>(&pIEquationPrinter));
 
 	if (SUCCEEDED(hr))
 	{
@@ -159,14 +159,18 @@ void Aggregation()
 		double *result = new double[N];
 		double *bVector = new double[N] {14, 20, 7};
 		pIEquationSolver->SolveWithVector(bVector, result);
-		/*if (pIEquationPrinter != nullptr)
+		if (pIEquationPrinter != nullptr)
 		{
 			cout << "L matrix: " << endl;
 			pIEquationPrinter->PrintLMatrix();
 			cout << endl << "U matrix:" << endl;
 			pIEquationPrinter->PrintUMatrix();
 			pIEquationPrinter->Release();
-		}*/
+		}
+		else
+		{
+			cout << "Does not implementing Printer interface!!!!!!\n";
+		}
 
 		cout << "Result: " << endl;
 		for (int i = 0; i < N; i++)
