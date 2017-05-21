@@ -21,18 +21,12 @@
     <ClCompile Include="Guids.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AggregateComponent.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IEquationSolver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IEquationPrinter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EquationsComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IWhoAmI.h">

@@ -15,57 +15,45 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EquationsDll.cpp">
+    <ClCompile Include="IncludeComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CIncludeComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CIncludeFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Guids.cpp">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="REGISTRY.CPP">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CEquationsPrinter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CEquationsSolver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="EquationsDll.def">
-      <Filter>Source Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="EquationsComponent.h">
+    <ClInclude Include="CIncludeComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IEquationPrinter.h">
+    <ClInclude Include="CIncludeFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IEquationSolver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IncludeComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IWhoAmI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="REGISTRY.H">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CEquationsPrinter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CEquationsSolver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="INondelegatingUnknown.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\IncludeComponent\IEquationSolver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IncludeComponent.def">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
